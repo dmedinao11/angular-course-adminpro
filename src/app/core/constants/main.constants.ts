@@ -1,5 +1,8 @@
 export const LOCAL_STORAGE = {
   user_theme: 'theme',
+  remember_me: 'remember',
+  token: 'token',
+  user_logged: 'user',
 };
 
 export const CSS_REFS = {

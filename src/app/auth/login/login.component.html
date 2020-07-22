@@ -10,15 +10,20 @@
   >
     <div class="login-box card">
       <div class="card-body">
-        <form class="form-horizontal form-material" id="loginform">
-          <h3 class="box-title m-b-20">Sign In</h3>
+        <form
+          class="form-horizontal form-material"
+          id="loginform"
+          [formGroup]="form"
+          (ngSubmit)="onSubmit()"
+        >
+          <h3 class="box-title m-b-20">Ingresar</h3>
           <div class="form-group">
             <div class="col-xs-12">
               <input
                 class="form-control"
                 type="text"
-                required=""
-                placeholder="Username"
+                placeholder="Email"
+                formControlName="email"
               />
             </div>
           </div>
@@ -27,8 +32,8 @@
               <input
                 class="form-control"
                 type="password"
-                required=""
-                placeholder="Password"
+                placeholder="Contraseña"
+                formControlName="password"
               />
             </div>
           </div>
@@ -39,17 +44,28 @@
                   id="checkbox-signup"
                   type="checkbox"
                   class="filled-in chk-col-light-blue"
+                  formControlName="rememberMe"
                 />
-                <label for="checkbox-signup"> Remember me </label>
+                <label for="checkbox-signup"> Recuérdame </label>
               </div>
               <a
                 href="javascript:void(0)"
                 id="to-recover"
                 class="text-dark pull-right"
-                ><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a
+                ><i class="fa fa-lock m-r-5"></i> ¿Olvidaste tu contraseña?</a
               >
             </div>
           </div>
+
+          <div class="row mb-2">
+            <div class="col text text-danger">
+              <p *ngIf="showErrorField('email')">El email es requerido</p>
+              <p *ngIf="showErrorField('password')">
+                La contraseña es requerida
+              </p>
+            </div>
+          </div>
+
           <div class="form-group text-center">
             <div class="col-xs-12 p-b-20">
               <button
@@ -61,33 +77,16 @@
               </button>
             </div>
           </div>
-          <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
-              <div class="social">
-                <a
-                  href="javascript:void(0)"
-                  class="btn btn-facebook"
-                  data-toggle="tooltip"
-                  title="Login with Facebook"
-                >
-                  <i aria-hidden="true" class="fa fa-facebook"></i>
-                </a>
-                <a
-                  href="javascript:void(0)"
-                  class="btn btn-googleplus"
-                  data-toggle="tooltip"
-                  title="Login with Google"
-                >
-                  <i aria-hidden="true" class="fa fa-google-plus"></i>
-                </a>
-              </div>
-            </div>
+
+          <div class="row google-btn">
+            <div id="my-signin2"></div>
           </div>
-          <div class="form-group m-b-0">
+
+          <div class="form-group mt-3">
             <div class="col-sm-12 text-center">
-              Don't have an account?
-              <a href="pages-register.html" class="text-info m-l-5"
-                ><b>Sign Up</b></a
+              ¿No tienes una cuenta?
+              <a routerLink="/register" class="text-info m-l-5"
+                ><b>Regístrate</b></a
               >
             </div>
           </div>
@@ -95,9 +94,9 @@
         <form class="form-horizontal" id="recoverform" action="index.html">
           <div class="form-group">
             <div class="col-xs-12">
-              <h3>Recover Password</h3>
+              <h3>Recuperar contraseña</h3>
               <p class="text-muted">
-                Enter your Email and instructions will be sent to you!
+                Ingresa tu correo para enviarte las instrucciones
               </p>
             </div>
           </div>
