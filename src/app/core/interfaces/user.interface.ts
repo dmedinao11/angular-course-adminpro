@@ -5,5 +5,6 @@ export interface IUser {
   role?: string;
   googleAuth?: boolean;
   uid?: string;
+  img?: string;
   rememberMe?: boolean;
 }

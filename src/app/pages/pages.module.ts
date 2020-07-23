@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 //Forms
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //Modules
 import { SharedModule } from '../shared/shared.module';
@@ -19,6 +19,7 @@ import { PagesComponent } from './pages.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromisesComponent } from './promises/promises.component';
 import { ObserversComponent } from './observers/observers.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ObserversComponent } from './observers/observers.component';
     AccountSettingsComponent,
     PromisesComponent,
     ObserversComponent,
+    ProfileComponent,
   ],
   exports: [
     DashboardComponent,
@@ -42,6 +44,7 @@ import { ObserversComponent } from './observers/observers.component';
     SharedModule,
     FormsModule,
     ComponentsModule,
+    ReactiveFormsModule,
   ],
 })
 export class PagesModule {}

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 //Utilities
 import { Observable, of } from 'rxjs';
-import { ToastService } from './toast.service';
+import { take, map, tap, catchError } from 'rxjs/operators';
 
 //Constants
 import {
@@ -14,12 +14,12 @@ import {
   GOOGLE_LOGIN_URI,
   RENEW_TOKEN,
 } from '../constants/server-uris.constants';
+import { LOCAL_STORAGE } from '../constants/main.constants';
 
 //Models
-import { IAuthUser, IToken } from '../interfaces/server-resps.interfaces';
+import { IAuthUser } from '../interfaces/server-resps.interfaces';
 import { IUser } from '../interfaces/user.interface';
-import { take, map, tap, catchError } from 'rxjs/operators';
-import { LOCAL_STORAGE } from '../constants/main.constants';
+import { MUser } from '../models/user.model';
 
 declare const gapi: any;
 
@@ -28,14 +28,22 @@ declare const gapi: any;
 })
 export class UserService {
   public auth2: any;
+  public user: MUser;
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private toastService: ToastService,
     private ngZone: NgZone
   ) {
     this.initGoogleSignin();
+  }
+
+  public get token() {
+    return localStorage.getItem(LOCAL_STORAGE.token) || '';
+  }
+
+  public get uid() {
+    return this.user.uid;
   }
 
   public async initGoogleSignin(): Promise<void> {
@@ -63,6 +71,18 @@ export class UserService {
         );
       })
     ) as Observable<IAuthUser>;
+  }
+
+  public update(toUpdate: { name: string; email: string }): Observable<IUser> {
+    return this.http
+      .put(
+        `${USERS_URI}`,
+        { ...toUpdate, uid: this.uid },
+        { headers: { token: this.token } }
+      )
+      .pipe(
+        map((resp: { ok: boolean; updatedUser: IUser }) => resp.updatedUser)
+      );
   }
 
   public login(toLogin: IUser): Observable<string> {
@@ -110,10 +130,11 @@ export class UserService {
     return this.http
       .get(RENEW_TOKEN, { headers: { token: storagedToken } })
       .pipe(
-        tap((resp: IToken) =>
-          localStorage.setItem(LOCAL_STORAGE.token, resp.token)
-        ),
-        map((resp: IToken) => true),
+        tap((resp: IAuthUser) => {
+          localStorage.setItem(LOCAL_STORAGE.token, resp.token);
+          this.user = new MUser(resp.user);
+        }),
+        map((resp: IAuthUser) => true),
         catchError((error) => of(false))
       );
   }
