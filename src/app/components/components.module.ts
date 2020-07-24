@@ -6,10 +6,11 @@ import { FormsModule } from '@angular/forms';
 
 //Components
 import { IncrementerComponent } from './incrementer/incrementer.component';
+import { ImgUpdaterComponent } from './img-updater/img-updater.component';
 
 @NgModule({
-  declarations: [IncrementerComponent],
+  declarations: [IncrementerComponent, ImgUpdaterComponent],
   imports: [CommonModule, FormsModule],
-  exports: [IncrementerComponent],
+  exports: [IncrementerComponent, ImgUpdaterComponent],
 })
 export class ComponentsModule {}

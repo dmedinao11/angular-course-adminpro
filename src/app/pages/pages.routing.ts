@@ -14,6 +14,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromisesComponent } from './promises/promises.component';
 import { ObserversComponent } from './observers/observers.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UsersComponent } from './support/users/users.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,11 @@ const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
         data: { title: 'Mi perfil' },
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        data: { title: 'Configurar Usuarios' },
       },
     ],
   },

@@ -66,6 +66,7 @@ export class ProfileComponent implements OnInit {
       this.tempImg = reader.result;
     };
   }
+
   public onImgUpload(): void {
     this.uploadService
       .updateImg(this.imgToUpload, 'users', this.user.uid)

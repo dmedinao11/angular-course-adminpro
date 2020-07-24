@@ -1,7 +1,7 @@
 import { IUser } from '../interfaces/user.interface';
 import { UPLOADS } from '../constants/server-uris.constants';
 
-export class MUser implements IUser {
+export class MUser {
   public name: string;
   public email: string;
   public uid?: string;
@@ -28,12 +28,5 @@ export class MUser implements IUser {
 
   get getImageUri(): string {
     return this.img;
-  }
-
-  set setName(name: string) {
-    this.name = name;
-  }
-  set setEmail(email: string) {
-    this.email = email;
   }
 }

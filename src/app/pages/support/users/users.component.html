@@ -1,0 +1,97 @@
+<ng-template class="row" #spinner>
+  <div class="col-12 text-center">
+    <div class="alert alert-info">
+      <h4 class="alert-heading">Cargando...</h4>
+      <i class="fa fa-spin fa-refresh fa-2x" aria-hidden="true"></i>
+      <p class="mb-0">Por favor espere</p>
+    </div>
+  </div>
+</ng-template>
+
+<div class="row">
+  <div class="col-12">
+    <input
+      type="text"
+      class="form-control mx-2"
+      placeholder="Buscar usuario..."
+      (keyup)="search(searchBar.value)"
+      #searchBar
+    />
+
+    <div class="card" *ngIf="loaded; else spinner">
+      <div class="card-body">
+        <h4 class="card-title">Usuarios</h4>
+        <h6 class="card-subtitle">Total Registrados: {{ totalUsers }}</h6>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="w100">Avatar</th>
+                <th>Email</th>
+                <th>Nombre</th>
+                <th class="w100">Role</th>
+                <th class="w100">Autenticado Vía</th>
+                <th class="w100 text-nowrap">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of usersList">
+                <td class="p-0 text-center pt-2">
+                  <img
+                    [src]="user.getImageUri"
+                    class="avatar"
+                    (click)="onOpenImgModal(user)"
+                    style="cursor: pointer;"
+                  />
+                </td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.name }}</td>
+                <td>
+                  <select
+                    [(ngModel)]="user.role"
+                    class="form-control w180"
+                    (change)="onRoleChange(user)"
+                  >
+                    <option value="USER_ROLE">Usuario</option>
+                    <option value="ADMIN_ROLE">Administrador</option>
+                  </select>
+                </td>
+                <td class="text-center">
+                  <span *ngIf="!user.googleAuth" class="label label-primary"
+                    >Email</span
+                  >
+                  <span *ngIf="user.googleAuth" class="label label-danger"
+                    >Google</span
+                  >
+                </td>
+                <td class="text-nowrap text-center">
+                  <a
+                    (click)="onDeleteUser(user)"
+                    *ngIf="user.uid !== userService.uid"
+                    data-toggle="tooltip"
+                    data-original-title="Eliminar"
+                    style="cursor: pointer;"
+                  >
+                    <i class="fa fa-close text-danger"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div
+            class="d-flex justify-content-end p-2"
+            *ngIf="!searchBar.value || searchBar.value == ''"
+          >
+            <button class="btn btn-primary mx-2" (click)="changePage(-5)">
+              Anteriores
+            </button>
+            <button class="btn btn-primary mx-2" (click)="changePage(5)">
+              Siguientes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

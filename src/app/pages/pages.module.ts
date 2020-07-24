@@ -20,6 +20,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromisesComponent } from './promises/promises.component';
 import { ObserversComponent } from './observers/observers.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UsersComponent } from './support/users/users.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ProfileComponent } from './profile/profile.component';
     PromisesComponent,
     ObserversComponent,
     ProfileComponent,
+    UsersComponent,
   ],
   exports: [
     DashboardComponent,

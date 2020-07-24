@@ -1,0 +1,63 @@
+<div class="img-modal-container" [class.hide]="uploadService.modalHidden">
+  <div
+    class="modal fade show"
+    id="exampleModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel1"
+    style="display: block; padding-right: 15px;"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel1">Actualizar Imagen</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="onClose()"
+            style="cursor: pointer;"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center p-2 m-2">
+            <img
+              width="200px"
+              height="200px"
+              *ngIf="!tempImg && uploadService.MUser"
+              [src]="uploadService.MUser.getImageUri"
+            />
+            <img width="200px" height="200px" *ngIf="tempImg" [src]="tempImg" />
+          </div>
+
+          <input
+            type="file"
+            placeholder="Imagen"
+            (change)="onImgChange($event.target.files[0])"
+          />
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-default"
+            data-dismiss="modal"
+            (click)="onClose()"
+          >
+            Cerrar
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="onSaveImg()"
+            [disabled]="!imgToUpload"
+          >
+            Enviar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

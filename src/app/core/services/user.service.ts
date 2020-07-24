@@ -17,7 +17,7 @@ import {
 import { LOCAL_STORAGE } from '../constants/main.constants';
 
 //Models
-import { IAuthUser } from '../interfaces/server-resps.interfaces';
+import { IAuthUser, IGetUsers } from '../interfaces/server-resps.interfaces';
 import { IUser } from '../interfaces/user.interface';
 import { MUser } from '../models/user.model';
 
@@ -83,6 +83,40 @@ export class UserService {
       .pipe(
         map((resp: { ok: boolean; updatedUser: IUser }) => resp.updatedUser)
       );
+  }
+
+  public saveUser(user: MUser): Observable<IUser> {
+    const { email, role, uid } = user;
+    return this.http
+      .put(
+        `${USERS_URI}`,
+        { email, role, uid },
+        { headers: { token: this.token } }
+      )
+      .pipe(
+        map((resp: { ok: boolean; updatedUser: IUser }) => resp.updatedUser)
+      );
+  }
+
+  public delete(uid: string): Observable<IUser> {
+    return this.http.delete(`${USERS_URI}/${uid}`, {
+      headers: { token: this.token },
+    }) as Observable<IUser>;
+  }
+
+  public getPage(from: number): Observable<IGetUsers> {
+    return this.http
+      .get(`${USERS_URI}?from=${from}`, {
+        headers: { token: this.token },
+      })
+      .pipe(
+        map((resp: IGetUsers) => {
+          const users: MUser[] = [];
+          resp.users.forEach((user) => users.push(new MUser(user)));
+          resp.users = users;
+          return resp;
+        })
+      ) as Observable<IGetUsers>;
   }
 
   public login(toLogin: IUser): Observable<string> {
