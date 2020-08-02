@@ -1,0 +1,184 @@
+<div class="row p-3">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Buscar doctor..."
+    (keyup)="onSearch(searchBar.value)"
+    #searchBar
+  />
+</div>
+
+<ng-template #spinner>
+  <div class="row">
+    <div class="col-12 text-center">
+      <div class="alert alert-info">
+        <h4 class="alert-heading">Cargando...</h4>
+        <i class="fa fa-spin fa-refresh fa-2x" aria-hidden="true"></i>
+        <p class="mb-0">Por favor espere</p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<div class="row" *ngIf="loaded; else spinner">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-9">
+            <h4 class="card-title">Doctores</h4>
+            <h6 class="card-subtitle">Registrados ({{ doctors.length }})</h6>
+          </div>
+          <div class="col" *ngIf="!doctorFormDisplayed">
+            <button class="btn btn-primary" (click)="onOpenDoctorForm()">
+              Crear Doctor
+              <i class="fa fa-person"></i>
+            </button>
+          </div>
+          <div class="col" *ngIf="doctorFormDisplayed">
+            <div class="d-flex justify-content-end p-2">
+              <button
+                class="btn btn-primary mx-2"
+                type="button"
+                (click)="onCreate()"
+              >
+                Guardar
+              </button>
+              <button
+                class="btn btn-danger mx-2"
+                (click)="doctorFormDisplayed = !doctorFormDisplayed"
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <ng-container *ngIf="doctorFormDisplayed">
+          <form [formGroup]="doctorForm">
+            <div
+              class="row border my-4 p-2 animate__animated animate__fadeInDown"
+            >
+              <div class="col">
+                <div class="form-group">
+                  <label for="name">Nombre del doctor</label>
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Nombre"
+                    formControlName="name"
+                    [class.is-invalid]="
+                      doctorForm.get('name').invalid &&
+                      doctorForm.get('name').touched
+                    "
+                    #name
+                  />
+
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="
+                      doctorForm.get('name').invalid &&
+                      doctorForm.get('name').touched
+                    "
+                  >
+                    Este valor es requerido
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Hospital</label>
+                  <select
+                    class="form-control"
+                    id="exampleFormControlSelect1"
+                    formControlName="hospital"
+                    placeholder="Hospital"
+                    [class.is-invalid]="
+                      doctorForm.get('hospital').touched &&
+                      doctorForm.get('hospital').value == ''
+                    "
+                  >
+                    <option value="">Elija un hospital</option>
+                    <option
+                      *ngFor="let hospital of hospitalsList"
+                      [value]="hospital._id"
+                      >{{ hospital.name }}</option
+                    >
+                  </select>
+
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="
+                      doctorForm.get('hospital').touched &&
+                      doctorForm.get('hospital').value == ''
+                    "
+                  >
+                    Este valor es requerido
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div
+                  *ngIf="selectedHospital"
+                  class="animate__animated animate__fadeInRight"
+                >
+                  <label for="hospitalImg">{{ selectedHospital.name }}</label>
+
+                  <img
+                    [src]="selectedHospital.img | img: 'hospitals'"
+                    class="img-thumbnail hospital-img"
+                    #hospitalImg
+                  />
+                </div>
+              </div>
+            </div>
+          </form>
+        </ng-container>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="w100">Imagen</th>
+                <th>Nombre</th>
+                <th>Hospital</th>
+                <th class="text-nowrap w100">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let doctor of doctors">
+                <td>
+                  <img
+                    class="avatar"
+                    [src]="doctor.img | img: 'doctors'"
+                    alt=""
+                  />
+                </td>
+                <td>{{ doctor.name }}</td>
+                <td>{{ doctor.hospital.name }}</td>
+                <td class="text-nowrap text-center">
+                  <a
+                    [routerLink]="['/dashboard/doctor', doctor._id]"
+                    data-toggle="tooltip"
+                    data-original-title="Editar"
+                    style="cursor: pointer;"
+                  >
+                    <i class="fa fa-pencil text-inverse m-r-10"></i>
+                  </a>
+                  <a
+                    (click)="onDelete(doctor)"
+                    data-toggle="tooltip"
+                    data-original-title="Eliminar"
+                    style="cursor: pointer;"
+                  >
+                    <i class="fa fa-close text-danger"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

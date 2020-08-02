@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 
 //Services
 import { UserService } from 'src/app/core/services/user.service';
@@ -10,6 +10,7 @@ import { UploadService } from 'src/app/core/services/upload.service';
 import { IUser } from 'src/app/core/interfaces/user.interface';
 import { IGetUsers } from 'src/app/core/interfaces/server-resps.interfaces';
 import { MUser } from 'src/app/core/models/user.model';
+import { ToastService } from 'src/app/core/services/toast.service';
 
 @Component({
   selector: 'app-users',
@@ -17,7 +18,7 @@ import { MUser } from 'src/app/core/models/user.model';
   styles: [],
 })
 export class UsersComponent {
-  public usersList: IUser[];
+  public usersList: MUser[];
   public totalUsers = 0;
   public pageFrom = 0;
   public loaded: boolean;
@@ -25,7 +26,8 @@ export class UsersComponent {
   constructor(
     public userService: UserService,
     private searchService: SearchService,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private toast: ToastService
   ) {
     this.getPage();
   }
@@ -62,23 +64,21 @@ export class UsersComponent {
   }
 
   public onDeleteUser(user: MUser): void {
-    swal({
+    Swal.fire({
       title: '¿Estás seguro?',
       text: `Vas a eliminar por completo a ${user.name}`,
       icon: 'warning',
-      buttons: ['Cancelar', 'Eliminar'],
-      dangerMode: true,
+      showCancelButton: true,
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar',
     }).then((willDelete) => {
       if (willDelete) {
         this.userService.delete(user.uid).subscribe((resp: IUser) => {
           this.getPage();
-          swal(`El usuario ${resp.name} ha sido eliminado`, {
-            icon: 'success',
-          });
+          Swal.fire(`El usuario ${resp.name} ha sido eliminado`);
         });
       }
     });
-    //
   }
 
   public onRoleChange(user: MUser): void {
@@ -86,7 +86,16 @@ export class UsersComponent {
   }
 
   public onOpenImgModal(user: MUser): void {
-    console.log(user);
-    this.uploadService.showModal('users', user);
+    if (user.googleAuth) {
+      this.toast.showError(
+        'No se puede cambiar la imagen de un usuario de Google'
+      );
+      return;
+    }
+    const { uid } = user;
+    const img = user.getImageUri;
+    this.uploadService
+      .showModal('users', img, uid)
+      .subscribe((result: string) => (user.setImg = result));
   }
 }

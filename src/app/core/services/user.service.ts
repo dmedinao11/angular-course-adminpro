@@ -150,8 +150,11 @@ export class UserService {
           LOCAL_STORAGE.user_logged,
           JSON.stringify(resp.user)
         );
-
         return resp.msg;
+      }),
+      catchError((err) => {
+        console.warn(err);
+        return of('');
       })
     );
   }

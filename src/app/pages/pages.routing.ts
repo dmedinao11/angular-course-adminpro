@@ -15,6 +15,9 @@ import { PromisesComponent } from './promises/promises.component';
 import { ObserversComponent } from './observers/observers.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './support/users/users.component';
+import { HospitalsComponent } from './support/hospitals/hospitals.component';
+import { DoctorsComponent } from './support/doctors/doctors.component';
+import { DoctorComponent } from './support/doctors/doctor/doctor.component';
 
 const routes: Routes = [
   {
@@ -53,6 +56,21 @@ const routes: Routes = [
         path: 'users',
         component: UsersComponent,
         data: { title: 'Configurar Usuarios' },
+      },
+      {
+        path: 'hospitals',
+        component: HospitalsComponent,
+        data: { title: 'Configurar Hospitales' },
+      },
+      {
+        path: 'doctors',
+        component: DoctorsComponent,
+        data: { title: 'Configurar Doctores' },
+      },
+      {
+        path: 'doctor/:id',
+        component: DoctorComponent,
+        data: { title: 'Editar Doctor' },
       },
     ],
   },

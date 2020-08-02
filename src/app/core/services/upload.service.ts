@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 //Constants
 import { UPLOADS } from '../constants/server-uris.constants';
 import { LOCAL_STORAGE } from '../constants/main.constants';
-import { StmtModifier } from '@angular/compiler';
 import { MUser } from '../models/user.model';
 
 @Injectable({
@@ -15,7 +14,11 @@ export class UploadService {
   private _modalHidden: boolean = true;
 
   public MType: string;
-  public MUser: MUser;
+
+  public UID: string;
+  public IMG: string;
+
+  private eventEmitter: EventEmitter<string>;
 
   public async updateImg(
     file: File,
@@ -49,17 +52,23 @@ export class UploadService {
 
   public showModal(
     type: 'users' | 'doctors' | 'hospitals',
-    user: MUser,
-    img?: string
-  ): void {
+    img?: string,
+    uid?: string
+  ): EventEmitter<string> {
+    console.warn('IMAGEN AL ENTRAR: ', img);
     this._modalHidden = false;
     this.MType = type;
-    this.MUser = user;
+    this.UID = uid;
+    this.IMG = img;
+
+    this.eventEmitter = new EventEmitter<string>();
+    return this.eventEmitter;
   }
 
   public hideModal(): void {
-    //this.MUser = null;
-    //this.MUser = null;
+    console.warn('IMAGEN AL SALIR', this.IMG);
+    this.eventEmitter.emit(this.IMG);
+    this.eventEmitter.complete();
     this._modalHidden = true;
   }
 }

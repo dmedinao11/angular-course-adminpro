@@ -1,0 +1,87 @@
+<div class="row">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Buscar hospital..."
+    (keyup)="onSearch(searchBar.value)"
+    #searchBar
+  />
+</div>
+
+<ng-template #spinner>
+  <div class="row">
+    <div class="col-12 text-center">
+      <div class="alert alert-info">
+        <h4 class="alert-heading">Cargando...</h4>
+        <i class="fa fa-spin fa-refresh fa-2x" aria-hidden="true"></i>
+        <p class="mb-0">Por favor espere</p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<div class="row" *ngIf="loaded; else spinner">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-9">
+            <h4 class="card-title">Hospitales</h4>
+            <h6 class="card-subtitle">Registrados ({{ hospitals.length }})</h6>
+          </div>
+
+          <div class="col">
+            <button class="btn btn-primary" (click)="onCreate()">
+              Crear Hospital
+              <i class="fa fa-hospital"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="w100">Imagen</th>
+                <th>Nombre</th>
+                <th class="text-nowrap w100">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let hospital of hospitals">
+                <td class="p-0 text-center pt-2">
+                  <img
+                    (click)="onOpenImgModal(hospital)"
+                    class="avatar"
+                    style="cursor: pointer;"
+                    [src]="hospital.img | img: 'hospitals'"
+                    alt=""
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Nombre del hospital"
+                    [(ngModel)]="hospital.name"
+                    (blur)="onUpdate(hospital)"
+                  />
+                </td>
+                <td class="text-nowrap text-center">
+                  <a
+                    (click)="onDelete(hospital)"
+                    data-toggle="tooltip"
+                    data-original-title="Eliminar"
+                    style="cursor: pointer;"
+                  >
+                    <i class="fa fa-close text-danger"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

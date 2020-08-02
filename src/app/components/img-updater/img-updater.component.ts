@@ -41,10 +41,10 @@ export class ImgUpdaterComponent implements OnInit {
       .updateImg(
         this.imgToUpload,
         this.uploadService.MType,
-        this.uploadService.MUser.uid
+        this.uploadService.UID
       )
       .then((resp) => {
-        this.uploadService.MUser.setImg = resp.img;
+        this.uploadService.IMG = resp.img;
         this.onClose();
       });
   }

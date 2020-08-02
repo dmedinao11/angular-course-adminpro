@@ -27,8 +27,8 @@
             <img
               width="200px"
               height="200px"
-              *ngIf="!tempImg && uploadService.MUser"
-              [src]="uploadService.MUser.getImageUri"
+              *ngIf="!tempImg && uploadService.IMG"
+              [src]="uploadService.IMG"
             />
             <img width="200px" height="200px" *ngIf="tempImg" [src]="tempImg" />
           </div>

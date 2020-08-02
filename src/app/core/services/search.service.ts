@@ -11,7 +11,6 @@ import { SEARCH_BY_COLLECTION } from '../constants/server-uris.constants';
 import { LOCAL_STORAGE } from '../constants/main.constants';
 
 //Models
-import { IAuthUser, IGetUsers } from '../interfaces/server-resps.interfaces';
 import { IUser } from '../interfaces/user.interface';
 import { MUser } from '../models/user.model';
 @Injectable({
