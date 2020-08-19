@@ -8,3 +8,4 @@ export const GOOGLE_LOGIN_URI = `${environment.SERVER_URI}/login/google`;
 export const RENEW_TOKEN = `${environment.SERVER_URI}/login/renew`;
 export const UPLOADS = `${environment.SERVER_URI}/upload`;
 export const SEARCH_BY_COLLECTION = `${environment.SERVER_URI}/search-by-collection`;
+export const SEARCH = `${environment.SERVER_URI}/search`;

@@ -1,12 +1,8 @@
+import { IEntity } from './doctor.interface';
+
 export interface IHospital {
   _id: string;
   name: string;
-  createdBy: IUserCreatedBy;
+  createdBy: IEntity;
   img?: string;
-}
-
-export interface IUserCreatedBy {
-  _id: string;
-  name: string;
-  img: string;
 }

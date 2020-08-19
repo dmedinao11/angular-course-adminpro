@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 //Routes
 import { RouterModule } from '@angular/router';
@@ -11,7 +12,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [BreadcrumbsComponent, HeaderComponent, SidebarComponent],
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   exports: [BreadcrumbsComponent, HeaderComponent, SidebarComponent],
 })
 export class SharedModule {}

@@ -5,7 +5,7 @@ export class MUser {
   public name: string;
   public email: string;
   public uid?: string;
-  public role?: string;
+  public role?: 'USER_ROLE' | 'ADMIN_ROLE';
   public img?: string;
   public googleAuth?: boolean;
 

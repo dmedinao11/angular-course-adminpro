@@ -3,6 +3,7 @@ export const LOCAL_STORAGE = {
   remember_me: 'remember',
   token: 'token',
   user_logged: 'user',
+  menu: 'menu',
 };
 
 export const CSS_REFS = {

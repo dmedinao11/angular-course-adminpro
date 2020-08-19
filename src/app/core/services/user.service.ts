@@ -46,6 +46,16 @@ export class UserService {
     return this.user.uid;
   }
 
+  public get role() {
+    return this.user.role;
+  }
+
+  public saveInLocalStorage(token: string, user: IUser, menu: Object[]): void {
+    localStorage.setItem(LOCAL_STORAGE.token, token);
+    localStorage.setItem(LOCAL_STORAGE.user_logged, JSON.stringify(user));
+    localStorage.setItem(LOCAL_STORAGE.menu, JSON.stringify(menu));
+  }
+
   public async initGoogleSignin(): Promise<void> {
     return new Promise((resolve, reject) => {
       gapi.load('auth2', () => {
@@ -63,13 +73,9 @@ export class UserService {
   public register(toRegister: IUser): Observable<IAuthUser> {
     return this.http.post(USERS_URI, toRegister).pipe(
       take(1),
-      tap((resp: IAuthUser) => {
-        localStorage.setItem(LOCAL_STORAGE.token, resp.token);
-        localStorage.setItem(
-          LOCAL_STORAGE.user_logged,
-          JSON.stringify(resp.user)
-        );
-      })
+      tap((resp: IAuthUser) =>
+        this.saveInLocalStorage(resp.token, resp.user, resp.menu)
+      )
     ) as Observable<IAuthUser>;
   }
 
@@ -129,11 +135,7 @@ export class UserService {
         else localStorage.removeItem(LOCAL_STORAGE.remember_me);
 
         //Recording token and scerialzable user
-        localStorage.setItem(LOCAL_STORAGE.token, resp.token);
-        localStorage.setItem(
-          LOCAL_STORAGE.user_logged,
-          JSON.stringify(resp.user)
-        );
+        this.saveInLocalStorage(resp.token, resp.user, resp.menu);
 
         return resp.msg;
       })
@@ -145,11 +147,8 @@ export class UserService {
       take(1),
       map((resp: IAuthUser) => {
         //Recording token and scerialzable user
-        localStorage.setItem(LOCAL_STORAGE.token, resp.token);
-        localStorage.setItem(
-          LOCAL_STORAGE.user_logged,
-          JSON.stringify(resp.user)
-        );
+        this.saveInLocalStorage(resp.token, resp.user, resp.menu);
+
         return resp.msg;
       }),
       catchError((err) => {
@@ -168,7 +167,8 @@ export class UserService {
       .get(RENEW_TOKEN, { headers: { token: storagedToken } })
       .pipe(
         tap((resp: IAuthUser) => {
-          localStorage.setItem(LOCAL_STORAGE.token, resp.token);
+          this.saveInLocalStorage(resp.token, resp.user, resp.menu);
+
           this.user = new MUser(resp.user);
         }),
         map((resp: IAuthUser) => true),
@@ -180,6 +180,7 @@ export class UserService {
     localStorage.removeItem(LOCAL_STORAGE.token);
     localStorage.removeItem(LOCAL_STORAGE.remember_me);
     localStorage.removeItem(LOCAL_STORAGE.user_logged);
+    localStorage.removeItem(LOCAL_STORAGE.menu);
 
     this.auth2
       .signOut()

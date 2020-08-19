@@ -14,14 +14,12 @@ import { MUser } from 'src/app/core/models/user.model';
 })
 export class SidebarComponent implements OnInit {
   public user: MUser;
-  public menu: Object[];
 
   constructor(
     private userService: UserService,
-    private menuService: MenuService
+    public menuService: MenuService
   ) {
     this.user = userService.user;
-    this.menu = menuService.getMenu();
   }
 
   ngOnInit(): void {}

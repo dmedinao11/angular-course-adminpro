@@ -4,8 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../core/services/user.service';
 
 //Constants
-import { LOCAL_STORAGE, CSS_REFS } from '../core/constants/main.constants';
 import { SettingsService } from '../core/services/settings.service';
+import { MenuService } from '../core/services/menu.service';
 
 declare function initAll();
 
@@ -14,15 +14,15 @@ declare function initAll();
   templateUrl: './pages.component.html',
   styles: [],
 })
-export class PagesComponent implements OnInit {
+export class PagesComponent {
   public themeStyleLink = document.querySelector('#theme');
 
   constructor(
     public settingsService: SettingsService,
-    public userService: UserService
+    public userService: UserService,
+    public menuService: MenuService
   ) {
     initAll();
+    menuService.loadMenu();
   }
-
-  ngOnInit(): void {}
 }

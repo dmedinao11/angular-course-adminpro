@@ -5,6 +5,7 @@ export interface IAuthUser {
   msg?: string;
   user: IUser;
   token: string;
+  menu: Object[];
 }
 
 export interface IGetUsers {
@@ -22,6 +23,7 @@ export interface IGetHospital {
   _id: string;
   name: string;
   createdBy: string;
+  img?: string;
 }
 
 export interface IGetDoctors {
@@ -34,4 +36,5 @@ export interface IGetDoctor {
   name: string;
   hospital: string;
   createdBy: string;
+  img?: string;
 }

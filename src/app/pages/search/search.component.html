@@ -1,0 +1,133 @@
+<ng-template #spinner>
+  <div class="row">
+    <div class="col-12 text-center">
+      <div class="alert alert-info">
+        <h4 class="alert-heading">Cargando...</h4>
+        <i class="fa fa-spin fa-refresh fa-2x" aria-hidden="true"></i>
+        <p class="mb-0">Por favor espere</p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #notFound>
+  <div class="row">
+    <div class="col-12 text-center">
+      <div class="alert alert-info">
+        <h4 class="alert-heading">No hay resultados</h4>
+        <p class="mb-0">Trata cambiar el término de búsqueda</p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<div class="container" *ngIf="loaded; else spinner">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Usuarios</h4>
+          <h6 class="card-subtitle">Encontrados {{ users.length }}</h6>
+          <div class="table-responsive" *ngIf="users.length > 0; else notFound">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Avatar</th>
+                  <th>Email</th>
+                  <th>Nombre</th>
+                  <th>Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of users">
+                  <td class="p-0 text-center pt-2">
+                    <img
+                      *ngIf="!user.googleAuth"
+                      [src]="user.img | img: 'users'"
+                      class="avatar"
+                    />
+                    <img
+                      *ngIf="user.googleAuth"
+                      [src]="user.img"
+                      class="avatar"
+                    />
+                  </td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.name }}</td>
+                  <td>{{ user.role }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Hospitales</h4>
+          <h6 class="card-subtitle">Encontrados {{ hospitals.length }}</h6>
+          <div
+            class="table-responsive"
+            *ngIf="hospitals.length > 0; else notFound"
+          >
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Avatar</th>
+                  <th>Nombre</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let hospital of hospitals">
+                  <td>
+                    <img
+                      [src]="hospital.img | img: 'hospitals'"
+                      class="avatar"
+                    />
+                  </td>
+                  <td>{{ hospital.name }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Doctores</h4>
+          <h6 class="card-subtitle">Encontrados {{ doctors.length }}</h6>
+          <div
+            class="table-responsive"
+            *ngIf="doctors.length > 0; else notFound"
+          >
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Avatar</th>
+                  <th>Nombre</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let doctor of doctors">
+                  <td>
+                    <img [src]="doctor.img | img: 'doctors'" class="avatar" />
+                  </td>
+                  <td>{{ doctor.name }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

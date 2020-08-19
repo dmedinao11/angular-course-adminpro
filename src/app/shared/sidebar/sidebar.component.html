@@ -31,7 +31,7 @@
         </li>
         <li class="nav-devider"></li>
         <li class="nav-small-cap">PERSONAL</li>
-        <li *ngFor="let submenu of menu">
+        <li *ngFor="let submenu of menuService.userMenu">
           <a class="has-arrow waves-effect waves-dark" aria-expanded="false"
             ><i [class]="submenu['icon']"></i
             ><span class="hide-menu"

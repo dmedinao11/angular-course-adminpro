@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 //Guards
 import { AuthGuard } from '../core/guards/auth.guard';
+import { AdminGuard } from '../core/guards/admin.guard';
 
 //Components
 import { PagesComponent } from './pages.component';
@@ -18,6 +19,7 @@ import { UsersComponent } from './support/users/users.component';
 import { HospitalsComponent } from './support/hospitals/hospitals.component';
 import { DoctorsComponent } from './support/doctors/doctors.component';
 import { DoctorComponent } from './support/doctors/doctor/doctor.component';
+import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   {
@@ -56,6 +58,7 @@ const routes: Routes = [
         path: 'users',
         component: UsersComponent,
         data: { title: 'Configurar Usuarios' },
+        canActivate: [AdminGuard],
       },
       {
         path: 'hospitals',
@@ -71,6 +74,11 @@ const routes: Routes = [
         path: 'doctor/:id',
         component: DoctorComponent,
         data: { title: 'Editar Doctor' },
+      },
+      {
+        path: 'search/:term',
+        component: SearchComponent,
+        data: { title: 'Resultados de la búsqueda' },
       },
     ],
   },
